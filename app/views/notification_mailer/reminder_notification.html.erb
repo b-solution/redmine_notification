@@ -1,0 +1,19 @@
+<p><%= l(:reminder_mail_body) %>:</p>
+
+<% @projects.each do |project, issues| -%>
+
+    <h2><%= "#{project.name}" %></h2>
+    <ul>
+    <% issues.each do |issue| -%>
+        <%
+           name = "#{issue.tracker} ##{issue.id}: #{issue.subject}"
+           caption = "* #{name} (#{l(:field_due_date)}: #{issue.due_date})"
+        %>
+        <li>
+        <%= link_to caption,issue_url(issue) %>
+        </li>
+    <% end -%>
+    </ul>
+<% end -%>
+
+<%= link_to l(:reminder_view_all_your_issues), @issues_url %>

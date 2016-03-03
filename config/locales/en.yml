@@ -1,0 +1,7 @@
+# English strings go here for Rails i18n
+en:
+   field_send_notification: "Send notification"
+   field_number_days: "Number of days without update for issues"
+   field_percentage_time: "Percent of time remaining for an issue"
+   reminder_mail_body: "Issues assigned to you that are due soon"
+   reminder_view_all_your_issues: "View all your issues"
