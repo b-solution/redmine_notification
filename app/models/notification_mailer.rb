@@ -14,6 +14,7 @@ class NotificationMailer < Mailer
     data = {}
     issues = self.find_issues
     issues.each { |issue| self.insert(data, issue) }
+    issues.each { |issue| issue.last_notification = DateTime.now; issue.save }
     data.each do |user, projects|
       reminder_notification(user, projects).deliver
     end
@@ -44,6 +45,9 @@ class NotificationMailer < Mailer
                                                   " AND #{Issue.table_name}.start_date IS NOT NULL" +
                                                   " AND #{Project.table_name}.send_notification = true", Date.today )
     issues = scope.all(:include => [:status, :assigned_to, :project, :tracker])
+    issues.select{ |issue|
+      issue.last_notification.nil? or !issue.last_notification.to_date == Date.today
+    }
     issues.select!{ |issue|
       issue.can_notify_if_due_is_coming? or issue.can_notify_if_not_updated? ? true :false
     }
