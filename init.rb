@@ -1,6 +1,6 @@
 Redmine::Plugin.register :redmine_notification do
   name 'Redmine Notification plugin'
-  author 'Ljupco Vangelski'
+  author 'ISPEHE'
   description 'This is a plugin for Redmine'
   version '0.0.1'
 

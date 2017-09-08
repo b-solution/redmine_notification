@@ -43,12 +43,13 @@ class NotificationMailer < Mailer
                                                   " AND #{Issue.table_name}.due_date IS NOT NULL" +
                                                   " AND #{Issue.table_name}.due_date >= ?" +
                                                   " AND #{Issue.table_name}.start_date IS NOT NULL" +
-                                                  " AND #{Project.table_name}.send_notification = true", Date.today )
-    issues = scope.all(:include => [:status, :assigned_to, :project, :tracker])
-    issues.select{ |issue|
+                                                    " AND #{Project.table_name}.send_notification = true", Date.today )
+    issues = scope.includes(:status, :assigned_to, :project, :tracker).
+        references(:status, :assigned_to, :project, :tracker)
+    issues = issues.select{ |issue|
       issue.last_notification.nil? or !issue.last_notification.to_date == Date.today
     }
-    issues.select!{ |issue|
+    issues = issues.select{ |issue|
       issue.can_notify_if_due_is_coming? or issue.can_notify_if_not_updated? ? true :false
     }
     issues.sort! { |first, second| first.due_date <=> second.due_date }

@@ -2,10 +2,10 @@
     <p><%= form.check_box :send_notification %></p>
 <% end %>
 <% if @project.safe_attribute? 'number_days' %>
-    <% percentage = (0..10).step(1) %>
+    <% percentage = (0..10).step(1).to_a  %>
     <p><%= form.select :number_days, options_for_select(percentage, selected: project.number_days) %></p>
 <% end %>
 <% if @project.safe_attribute? 'percentage_time' %>
-    <% percentage = (10..100).step(10) %>
+    <% percentage = (10..100).step(10).to_a %>
     <p><%= form.select :percentage_time, percentage %></p>
 <% end %>
